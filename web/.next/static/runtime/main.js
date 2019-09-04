@@ -6187,7 +6187,7 @@ function connect(options) {
       error.name = err.name;
       error.stack = err.stack; // __NEXT_DIST_DIR is provided by webpack
 
-      (0, _sourceMapSupport.rewriteStacktrace)(error, "C:\\Users\\hoang\\source\\repos\\sn-test\\web\\.next");
+      (0, _sourceMapSupport.rewriteStacktrace)(error, "/Users/alex/sanity-test/web/.next");
       return error;
     }
   };

@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -127,43 +127,93 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! next/router */ "next/router");
-/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../client */ "./client.js");
-var _jsxFileName = "C:\\Users\\hoang\\source\\repos\\sn-test\\web\\pages\\post\\[slug].js";
+/* harmony import */ var groq__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! groq */ "groq");
+/* harmony import */ var groq__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(groq__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _sanity_image_url__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @sanity/image-url */ "@sanity/image-url");
+/* harmony import */ var _sanity_image_url__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_sanity_image_url__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _client__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../client */ "./client.js");
+var _jsxFileName = "/Users/alex/sanity-test/web/pages/post/[slug].js";
 
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
 
+
+function urlFor(source) {
+  console.log(source, "source");
+  return _sanity_image_url__WEBPACK_IMPORTED_MODULE_2___default()(_client__WEBPACK_IMPORTED_MODULE_3__["default"]).image(source);
+}
+
 const Post = props => {
+  const {
+    title = "Missing title",
+    name = "Missing name",
+    categories,
+    authorImage,
+    imageUrl
+  } = props;
   console.log(props);
   return __jsx("article", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 9
+      lineNumber: 21
     },
     __self: undefined
   }, __jsx("h1", {
-    style: {
-      color: "blue"
-    },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 10
+      lineNumber: 22
     },
     __self: undefined
-  }, props.slug.current));
+  }, title), __jsx("span", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 23
+    },
+    __self: undefined
+  }, "By ", name), categories && __jsx("ul", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 25
+    },
+    __self: undefined
+  }, "Posted in", categories.map(category => __jsx("li", {
+    key: category,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 28
+    },
+    __self: undefined
+  }, category))), authorImage && __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 33
+    },
+    __self: undefined
+  }, __jsx("img", {
+    src: urlFor(authorImage).width(50).url(),
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 34
+    },
+    __self: undefined
+  })));
 };
 
-Post.getInitialProps = async function (context) {
+const query = groq__WEBPACK_IMPORTED_MODULE_1___default.a`*[_type == "post" && slug.current == $slug][0]{
+  title,
+  "name": author->name,
+  "categories": categories[]->title,
+  "authorImage": author=>image,
+  "imageUrl": author=>image.asset->url
+}`;
+
+Post.getInitialProps = async context => {
   // It's important to default the slug so that it doesn't return "undefined"
   const {
     slug = ""
   } = context.query;
-  return await _client__WEBPACK_IMPORTED_MODULE_2__["default"].fetch(`
-    *[_type == "post" && slug.current == $slug][0]
-  `, {
+  return await _client__WEBPACK_IMPORTED_MODULE_3__["default"].fetch(query, {
     slug
   });
 };
@@ -172,14 +222,14 @@ Post.getInitialProps = async function (context) {
 
 /***/ }),
 
-/***/ 5:
+/***/ 3:
 /*!************************************!*\
   !*** multi ./pages/post/[slug].js ***!
   \************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\hoang\source\repos\sn-test\web\pages\post\[slug].js */"./pages/post/[slug].js");
+module.exports = __webpack_require__(/*! /Users/alex/sanity-test/web/pages/post/[slug].js */"./pages/post/[slug].js");
 
 
 /***/ }),
@@ -195,14 +245,25 @@ module.exports = require("@sanity/client");
 
 /***/ }),
 
-/***/ "next/router":
-/*!******************************!*\
-  !*** external "next/router" ***!
-  \******************************/
+/***/ "@sanity/image-url":
+/*!************************************!*\
+  !*** external "@sanity/image-url" ***!
+  \************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("next/router");
+module.exports = require("@sanity/image-url");
+
+/***/ }),
+
+/***/ "groq":
+/*!***********************!*\
+  !*** external "groq" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("groq");
 
 /***/ }),
 
